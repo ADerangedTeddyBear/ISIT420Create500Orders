@@ -15,6 +15,28 @@ let OrderObject = function (pStoreID, pSalesPersonID, pCdID, pPricePaid, pDate) 
     this.Date = pDate;
 }
 
+// mongoose support
+const mongoose = require("mongoose");
+const OrderSchema = require('../orderSchema');
+
+const dbURI = "mongodb+srv://bcuser:bcuser@kyucluster.y886w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
+/*mongoose.set('useFindAndModify', false);
+
+const options = {
+  reconnectTries: Number.MAX_VALUE,
+  poolSize: 10
+};*/
+
+mongoose.connect(dbURI).then(
+  () => {
+    console.log("Database connection established!");
+  },
+  err => {
+    console.log("Error connecting Database instance due to: ", err);
+  }
+);
+
 // my file management code, embedded in an object
 fileManager  = {
   read: function() {
@@ -52,8 +74,9 @@ router.get('/getAllOrders', function(req, res) {
 });
 
 
-/* Add one new Order */
-router.post('/AddOrder', function(req, res) {
+/* Add one new Order 
+currently deprecated due to this calling filemanager instead of mongoose*/
+router.post('/AddOrderOld', function(req, res) {
   const newOrder = req.body;  // get the object from the req object sent from browser
   console.log(newOrder);
   OrderArray.push(newOrder);  // add it to our "DB"  (array)
@@ -65,6 +88,23 @@ router.post('/AddOrder', function(req, res) {
   }
   res.end(JSON.stringify(response)); // send reply
 });
+
+/* Alternative write one new order to mongoDB*/
+router.post('/AddOrder', function(req, res) {
+  let oneNewOrder = new OrderSchema(req.body);
+  console.log(req.body);
+  oneNewOrder.save((err, todo) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      var response = {
+        status  : 200,
+        success : 'Added Successfully'
+      }
+      res.end(JSON.stringify(response));
+    }
+  })
+})
 
 // delete movie
 
