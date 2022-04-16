@@ -70,9 +70,32 @@ router.get('/', function(req, res, next) {
 /* GET all Order data */
 router.get('/getAllOrders', function(req, res) {
   fileManager.read();
+  console.log(OrderArray.length);
   res.status(200).json(OrderArray);
 });
 
+//Get all order data where PricePaid is 14
+router.get('/getSpecificOrders', function(req, res) {
+  OrderSchema.find(  {PricePaid: 14 }).exec(function(err, AllOrders) {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    }
+    console.log(AllOrders);
+    res.status(200).json(AllOrders);
+  });
+});
+
+// router.get('/getSpecificOrders', function(req, res) {
+//   OrderSchema.find(  {PricePaid: 14 }  , (err, AllOrders) => {
+//     if (err) {
+//       console.log(err);
+//       res.status(500).send(err);
+//     }
+//     console.log(AllOrders);
+//     res.status(200).json(AllOrders);
+//   });
+// });
 
 /* Add one new Order 
 currently deprecated due to this calling filemanager instead of mongoose*/

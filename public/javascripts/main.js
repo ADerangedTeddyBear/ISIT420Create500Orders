@@ -18,11 +18,22 @@ let OrderObject = function (pStoreID, pSalesPersonID, pCdID, pPricePaid, pDate) 
 
 let selectedGenre = "not selected";
 
+
+
 document.addEventListener("DOMContentLoaded", function () {
 
     createList();
 
 // add button events ************************************************************************
+
+    document.getElementById("buttonGet").addEventListener("click", function() {
+        createListSpecific();
+    });
+
+    document.getElementById("buttonGetAll").addEventListener("click", function() {
+        createList();
+    });
+    
     document.getElementById("buttonCreate").addEventListener("click", function(){
         let currStoreID = aStoreID[Math.floor(Math.random() * 5)];
         let currSalesPersonID = Math.floor((Math.random() * 4)+1);
@@ -57,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("randomDate").innerHTML = currDate.toString();
         //currently this only saves to a new OrderObject and does not write anywhere
     });    
+
 
 
     document.getElementById("buttonSubmitOne").addEventListener("click", function () {
@@ -182,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function createList() {
 // update local array from server
 
-    fetch('/getAllMovies')
+    fetch('/getAllOrders')
     // Handle success
     .then(response => response.json())  // get the data out of the response object
     .then( responseData => fillUL(responseData))    //update our array and li's
@@ -222,9 +234,10 @@ function fillUL(data) {
     movieArray = data;
     movieArray.forEach(function (element,) {   // use handy array forEach method
         var li = document.createElement('li');
-        li.innerHTML = element.ID + ":  &nbsp &nbsp  &nbsp &nbsp " + 
-        element.Title + "  &nbsp &nbsp  &nbsp &nbsp "  
-        + element.Year + " &nbsp &nbsp  &nbsp &nbsp  " + element.Genre;
+        li.innerHTML = element.StoreID + ":  &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp" + 
+        element.SalesPersonID + "  &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp"  
+        + element.CdID + " &nbsp &nbsp  &nbsp &nbsp  " + element.PricePaid; +
+        element.Date + "  &nbsp &nbsp  &nbsp &nbsp "  
         ul.appendChild(li);
     });
     divMovieList.appendChild(ul)
@@ -240,22 +253,17 @@ function deleteMovie(ID) {
       .then(response => response.json()) 
       .then(json => console.log(json))
       .catch(err => console.log(err));
-
-
-
-    // $.ajax({
-    //     type: "DELETE",
-    //     url: "/DeleteMovie/" +ID,
-    //     success: function(result){
-    //         alert(result);
-    //         createList();
-    //     },
-    //     error: function (xhr, textStatus, errorThrown) {  
-    //         alert("Server could not delete Movie with ID " + ID)
-    //     }  
-    // });
-   
 }
+
+function createListSpecific() {
+    // update local array from server
+    
+        fetch('/getSpecificOrders')
+        // Handle success
+        .then(response => response.json())  // get the data out of the response object
+        .then( responseData => fillUL(responseData))    //update our array and li's
+        .catch(err => console.log('Request Failed', err)); // Catch errors
+    };
 
 
   
