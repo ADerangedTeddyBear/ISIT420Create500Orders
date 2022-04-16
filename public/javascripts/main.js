@@ -256,8 +256,7 @@ function fillUL(data) {
         var li = document.createElement('li');
         li.innerHTML = element.StoreID + ":  &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp" + 
         element.SalesPersonID + "  &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp"  
-        + element.CdID + " &nbsp &nbsp  &nbsp &nbsp  " + element.PricePaid; +
-        element.Date + "  &nbsp &nbsp  &nbsp &nbsp "  
+        + element.CdID + " &nbsp &nbsp  &nbsp &nbsp  " + element.PricePaid + "  &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp "  + element.Date;
         ul.appendChild(li);
     });
     divMovieList.appendChild(ul)
