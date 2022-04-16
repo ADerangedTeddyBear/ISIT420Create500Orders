@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>My Movies</title>
+  <title>The Order Database</title>
 
   <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="/javascripts/main.js"></script>
@@ -15,8 +15,9 @@
 
 <h2> Transaction Log </h2>
  
-<input type="button" value="Get Transactions with Price Paid of 14" id="buttonGet"  />
-<input type="button" value="Get All Transactions" id="buttonGetAll"  />
+<input type="button" value="Get Transactions with SalespersonID 1 and Price Paid of 14" id="buttonGet"  /><br><br>
+<input type="button" value="Get Transactions from StoreID 98077 and minimum Price of 13" id="buttonGet2"  /><br><br>
+<input type="button" value="Get All Transactions" id="buttonGetAll"  /><br><br><br>
 
 <!-- Display randomly generated transaction. Not in server yet but values stored can be through clicking CREATE button -->
 <div>
@@ -33,6 +34,7 @@
   <input type="button" value="CREATE" id="buttonCreate" />
   <input type="button" value="SUBMIT-ONE" id="buttonSubmitOne" />
   <input type="button" value="SUBMIT-500" id="buttonSubmit500" />
+  <input type="button" value="CLEAR-ALL" id="buttonDrop" />
 </div>
 <br />
 <br />

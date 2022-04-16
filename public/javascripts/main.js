@@ -30,6 +30,10 @@ document.addEventListener("DOMContentLoaded", function () {
         createListSpecific();
     });
 
+    document.getElementById("buttonGet2").addEventListener("click", function() {
+        createListSpecific2();
+    });
+
     document.getElementById("buttonGetAll").addEventListener("click", function() {
         createList();
     });
@@ -172,6 +176,20 @@ document.addEventListener("DOMContentLoaded", function () {
         }      
     });
 
+    //attempt at a button to drop database, nonfunctional for now
+    /*
+    document.getElementById("buttonDrop").addEventListener("click", function () {
+        console.log("fetching drop database method");
+        document.getElementById("randomStoreID").innerHTML = "Please God do something";
+        fetch('/DeleteOrders', {
+            method: "DELETE",
+            headers: {"Content-type": "application/json; charset=UTF-8"}
+          })
+          .then(response => response.json()) 
+          .then(json => console.log(json))
+          .catch(err => console.log(err));
+    });*/
+
     document.getElementById("buttonDelete").addEventListener("click", function () {
         deleteMovie(document.getElementById("deleteID").value);      
     });
@@ -184,6 +202,8 @@ document.addEventListener("DOMContentLoaded", function () {
     $(document).bind("change", "#select-genre", function (event, ui) {
         selectedGenre = $('#select-genre').val();
     });
+
+
 
   
 
@@ -243,6 +263,9 @@ function fillUL(data) {
     divMovieList.appendChild(ul)
 }
 
+
+
+
 function deleteMovie(ID) {
 
     fetch('/DeleteMovie/' + ID, {
@@ -263,7 +286,17 @@ function createListSpecific() {
         .then(response => response.json())  // get the data out of the response object
         .then( responseData => fillUL(responseData))    //update our array and li's
         .catch(err => console.log('Request Failed', err)); // Catch errors
-    };
+}
+
+    function createListSpecific2() {
+        // update local array from server
+        
+            fetch('/getSpecificOrders2')
+            // Handle success
+            .then(response => response.json())  // get the data out of the response object
+            .then( responseData => fillUL(responseData))    //update our array and li's
+            .catch(err => console.log('Request Failed', err)); // Catch errors
+}
 
 
   

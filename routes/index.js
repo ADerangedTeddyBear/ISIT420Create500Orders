@@ -37,6 +37,10 @@ mongoose.connect(dbURI).then(
   }
 );
 
+const connection = mongoose.connection;
+
+
+
 // my file management code, embedded in an object
 fileManager  = {
   read: function() {
@@ -74,9 +78,21 @@ router.get('/getAllOrders', function(req, res) {
   res.status(200).json(OrderArray);
 });
 
-//Get all order data where PricePaid is 14
+//Get all order data where SalesPersonID is 1 and PricePaid is 14
 router.get('/getSpecificOrders', function(req, res) {
-  OrderSchema.find(  {PricePaid: 14 }).exec(function(err, AllOrders) {
+  OrderSchema.find(  {SalesPersonID: 1, PricePaid: 14 }).exec(function(err, AllOrders) {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    }
+    console.log(AllOrders);
+    res.status(200).json(AllOrders);
+  });
+});
+
+//Get all order data where CdID contains 123 and PricePaid is at least 10
+router.get('/getSpecificOrders2', function(req, res) {
+  OrderSchema.find(  {StoreID: 98077, PricePaid: {$gte: 13} }).exec(function(err, AllOrders) {
     if (err) {
       console.log(err);
       res.status(500).send(err);
@@ -128,6 +144,17 @@ router.post('/AddOrder', function(req, res) {
     }
   })
 })
+
+
+
+// clear mongoose db
+router.delete('/DeleteOrders', (req, res) => {
+  console.log(`Our Current Database Name : ${connection.db.databaseName}`);
+  mongoose.connection.db.dropDatabase();
+  /*OrderSchema.remove({}, function(err){
+    console.log('collection removed');
+  });*/
+});
 
 // delete movie
 
